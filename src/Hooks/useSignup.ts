@@ -1,26 +1,23 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-export const useForget = () => {
+export const useSignup = () => {
   const navigate = useNavigate();
-
-  const Forget = (
+  const Signup = (
+    username: string,
     email: string,
+    password: string,
     setToastOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setForgotResponse: React.Dispatch<React.SetStateAction<string>>
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    const changeScreen = () => {
-      navigate("/resetpassword");
-    };
     const userType = "brands";
     const baseUrl = `https://project2-p2.herokuapp.com/api/${userType}`;
 
-    const data = {
-      brand: { email: email },
+    const data: { [key: string]: any } = {
+      brand: { username: username, email: email, password: password },
     };
     var config = {
       method: "post",
-      url: `${baseUrl}/password`,
+      url: `${baseUrl}/login.json`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -29,18 +26,18 @@ export const useForget = () => {
 
     axios(config)
       .then(function (response) {
-        setForgotResponse(response.statusText);
+        window.localStorage.setItem("token", response.data.brand.token);
         setToastOpen(true);
         setLoading(false);
-        setTimeout(changeScreen, 3000);
-        console.log(response.statusText);
+        navigate("/feed");
+        console.log("here-----------------", response.data);
       })
       .catch(function (response) {
-        console.log(response);
-        setForgotResponse("");
+        window.localStorage.setItem("token", "");
+        console.log(response.data);
         setToastOpen(true);
         setLoading(false);
       });
   };
-  return { Forget };
+  return { Signup };
 };

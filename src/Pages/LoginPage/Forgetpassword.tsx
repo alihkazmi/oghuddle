@@ -12,8 +12,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 import { Link } from 'react-router-dom';
-import { useLogin } from '../../Hooks/useLogin';
+
+import CircularProgress from '@mui/material/CircularProgress';
+
 import CustomizedSnackbars from '../../Components/Toast';
+import { useForget } from '../../Hooks/useForget';
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -29,30 +33,37 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function Login() {
-  const { Login } = useLogin();
-  const [loading, setLoading] = React.useState(false)
+export default function Forgetpassword() {
+
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(true)
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  }; const [loading, setLoading] = React.useState(false)
   const [toastOpen, setToastOpen] = React.useState(false)
+  const [forgotResponse, setForgotResponse] = React.useState('')
+
+
   const validationSchema = yup.object({
+
     email: yup
       .string()
       .email("Enter a valid email")
       .required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Password should be of minimum 6 characters length")
-      .required("Password is required"),
+
   });
+  const { Forget } = useForget();
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      Login(values.email, values.password, setToastOpen, setLoading)
+      Forget(values.email, setLoading, setToastOpen, setForgotResponse);
     },
   });
+
 
 
   return (
@@ -72,12 +83,15 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" >
-            Login
-          </Typography>
-          <Box component="form" sx={{ mt: 3, }} onSubmit={formik.handleSubmit}>
+            Forgot Password         </Typography>
+          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+
+
+
+              <Grid item xs={12} sx={{ m: 3, width: '45ch' }}>
                 <TextField
+                  required
                   fullWidth
                   label="Email Address"
                   name="email"
@@ -90,46 +104,20 @@ export default function Login() {
                   onBlur={formik.handleBlur}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="password"
-                  name="password"
-                  label="Password"
-                  type="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.password && Boolean(formik.errors.password)
-                  }
-                  helperText={formik.touched.password && formik.errors.password}
-                  onBlur={formik.handleBlur}
-                />
-              </Grid>
-              <Grid item xs={12}>
-
-              </Grid>
             </Grid>
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 2, mb: 5, backgroundColor: '#f9c712', "&:hover": { backgroundColor: '#bf980c' } }}
             >
-              Login
+              Forget Password
             </Button>
 
             <Grid container justifyContent="flex-end" sx={{ color: '#303030' }}>
-              <Grid item xs>
-                <Link to="/forgetpassword" style={{ color: '#303030' }}>
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-
-                <Link to='/signup' style={{ color: '#303030' }}> Don't have an account? Signup!</Link>
-
+                <Link to='/' style={{ color: '#303030' }}>
+                  Login Instead               </Link>
               </Grid>
             </Grid>
           </Box>
