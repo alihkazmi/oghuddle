@@ -30,6 +30,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
+  const token = window.localStorage.getItem("token")
   const { Login } = useLogin();
   const [loading, setLoading] = React.useState(false)
   const [toastOpen, setToastOpen] = React.useState(false)
@@ -131,7 +132,9 @@ export default function Login() {
                 <Link to='/signup' style={{ color: '#303030' }}> Don't have an account? Signup!</Link>
 
               </Grid>
+
             </Grid>
+            <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={token ? "Logged in successfully" : "Incorrect email or password"} severity={token ? "success" : "error"}></CustomizedSnackbars>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

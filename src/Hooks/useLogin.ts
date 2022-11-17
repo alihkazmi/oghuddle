@@ -8,6 +8,9 @@ export const useLogin = () => {
     setToastOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
+    const ChangeScreen = () => {
+      navigate("/feed");
+    };
     const userType = "brands";
     const baseUrl = `https://project2-p2.herokuapp.com/api/${userType}`;
 
@@ -28,7 +31,7 @@ export const useLogin = () => {
         window.localStorage.setItem("token", response.data.brand.token);
         setToastOpen(true);
         setLoading(false);
-        navigate("/feed");
+        setTimeout(ChangeScreen, 2000);
         console.log("here-----------------", response.data);
       })
       .catch(function (response) {
