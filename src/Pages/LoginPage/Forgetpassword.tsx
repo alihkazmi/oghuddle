@@ -1,58 +1,36 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useFormik } from 'formik';
+import React from "react";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  CircularProgress,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import * as yup from "yup";
-import { Link } from 'react-router-dom';
+import { useFormik } from "formik";
+import { useForget } from "../../Hooks/useForget";
+import CustomizedSnackbars from "../../Components/Toast";
+import { Link } from "react-router-dom";
 
-import CircularProgress from '@mui/material/CircularProgress';
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+});
 
-import CustomizedSnackbars from '../../Components/Toast';
-import { useForget } from '../../Hooks/useForget';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" to="https://mui.com/">
-        HuddleBooth
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-export default function Forgetpassword() {
-
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(true)
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  }; const [loading, setLoading] = React.useState(false)
-  const [toastOpen, setToastOpen] = React.useState(false)
-  const [forgotResponse, setForgotResponse] = React.useState('')
+export const ForgetPassword = () => {
 
 
-  const validationSchema = yup.object({
-
-    email: yup
-      .string()
-      .email("Enter a valid email")
-      .required("Email is required"),
-
-  });
+  const [toastOpen, setToastOpen] = React.useState<boolean>(false);
+  const [duration, setDuration] = React.useState<boolean>(false);
+  const [forgetResponse, setForgetResponse] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
   const { Forget } = useForget();
   const formik = useFormik({
     initialValues: {
@@ -60,70 +38,83 @@ export default function Forgetpassword() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      Forget(values.email, setLoading, setToastOpen, setForgotResponse);
+      setLoading(true);
+      Forget(values.email, setToastOpen, setLoading, setForgetResponse);
     },
   });
 
-
-
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" >
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            // bgcolor: '#f9c712'
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: '#303030' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" >
-            Forgot Password         </Typography>
-          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, }}>
-            <Grid container spacing={2}>
-
-
-
-              <Grid item xs={12} sx={{ m: 3, width: '45ch' }}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  id="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                  onBlur={formik.handleBlur}
-                />
-              </Grid>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <CustomizedSnackbars
+        open={toastOpen}
+        setOpen={setToastOpen}
+        autoHideDuration={setDuration}
+        text={
+          forgetResponse
+            ? "A code to reset password has been sent to your email"
+            : "Email does not exist"
+        }
+        severity={forgetResponse ? "success" : "error"}
+      />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        color="primary.main"
+      >
+        <Avatar sx={{ m: 1, bgcolor: '#303030' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" sx={{ m: 1, color: '#303030' }}>
+          Forgot Password
+        </Typography>
+        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            onBlur={formik.handleBlur}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, textTransform: "none", backgroundColor: '#f9c712', "&:hover": { backgroundColor: '#bf980c' } }}
+          >
+            Send Password Link
+          </Button>
+          {loading && (
+            <Grid container justifyContent="center">
+              <CircularProgress color="secondary" />
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 2, mb: 5, backgroundColor: '#f9c712', "&:hover": { backgroundColor: '#bf980c' } }}
-            >
-              Forget Password
-            </Button>
-
-            <Grid container justifyContent="flex-end" sx={{ color: '#303030' }}>
-              <Grid item>
-                <Link to='/' style={{ color: '#303030' }}>
-                  Login Instead               </Link>
-              </Grid>
+          )}
+          <Grid container>
+            <Grid item xs>
+              <Link to="/" style={{ fontSize: "0.75rem", color: "#303030" }}>
+                Go back to Sign In
+              </Link>
             </Grid>
-          </Box>
+            <Grid item>
+              <Link
+                to="/signup"
+                style={{ fontSize: "0.75rem", color: "#303030" }}
+              >
+                Not a member? Sign Up
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   );
-}
+};

@@ -3,13 +3,22 @@ import { useNavigate } from "react-router-dom";
 export const useResetPassword = () => {
   const navigate = useNavigate();
   const ResetPassword = (
-    code: string,
+
     password: string,
     setToastOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setResetResponse: React.Dispatch<React.SetStateAction<number | null>>
   ) => {
-    const changeScreen = () => {
+    
+    
+    var url_string = window.location.href;
+  console.log(url_string);
+  var newurl = new URL(url_string);
+  var c = newurl.searchParams.get("reset_password_token");
+  console.log("coming------------------", c);
+    
+  
+  const changeScreen = () => {
       navigate("/");
     };
     const userType = "brands";
@@ -17,7 +26,7 @@ export const useResetPassword = () => {
     const data = {
       brand: {
         password: password,
-        reset_password_token: code,
+        reset_password_token: c,
       },
     };
     var config = {

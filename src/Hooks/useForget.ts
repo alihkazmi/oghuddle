@@ -2,15 +2,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 export const useForget = () => {
   const navigate = useNavigate();
-
   const Forget = (
     email: string,
     setToastOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setForgotResponse: React.Dispatch<React.SetStateAction<string>>
+    setForgetResponse: React.Dispatch<React.SetStateAction<string>>
   ) => {
     const changeScreen = () => {
-      navigate("/resetpassword");
+      navigate("/resetPassword");
     };
     const userType = "brands";
     const baseUrl = `https://project2-p2.herokuapp.com/api/${userType}`;
@@ -29,7 +28,7 @@ export const useForget = () => {
 
     axios(config)
       .then(function (response) {
-        setForgotResponse(response.statusText);
+        setForgetResponse(response.statusText);
         setToastOpen(true);
         setLoading(false);
         setTimeout(changeScreen, 3000);
@@ -37,7 +36,7 @@ export const useForget = () => {
       })
       .catch(function (response) {
         console.log(response);
-        setForgotResponse("");
+        setForgetResponse("");
         setToastOpen(true);
         setLoading(false);
       });

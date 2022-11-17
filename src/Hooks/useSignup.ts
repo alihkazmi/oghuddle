@@ -17,7 +17,7 @@ export const useSignup = () => {
     };
     var config = {
       method: "post",
-      url: `${baseUrl}/login.json`,
+      url: `${baseUrl}.json`,
       headers: {
         "Content-Type": "application/json",
       },

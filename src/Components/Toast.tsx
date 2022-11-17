@@ -17,13 +17,13 @@ export default function CustomizedSnackbars(props: any) {
     if (reason === "clickaway") {
       return;
     }
-    props.setOpen(false);
+
   };
 
   return (
     <>
 
-      <Snackbar open={props.open} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={props.open} autoHideDuration={props.autoHideDuration} onClose={handleClose}>
         <Alert onClose={handleClose} severity={props.severity} sx={{ width: "100%" }}>
           {props.text}
         </Alert>

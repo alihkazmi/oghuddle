@@ -41,6 +41,8 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Resetpassword() {
+  const token = window.localStorage.getItem("token")
+
   const { ResetPassword } = useResetPassword();
   const [showPassword, setShowPassword] = React.useState(true)
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(true)
@@ -59,9 +61,6 @@ export default function Resetpassword() {
 
 
   const validationSchema = yup.object({
-    code: yup
-      .string()
-      .required("Reset code is required"),
     password: yup
       .string()
       .min(6, "Password should be of minimum 6 characters length")
@@ -75,13 +74,12 @@ export default function Resetpassword() {
   });
   const formik = useFormik({
     initialValues: {
-      code: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      ResetPassword(values.code, values.password, setLoading, setToastOpen, setResetResponse)
+      ResetPassword(values.password, setLoading, setToastOpen, setResetResponse)
     },
   });
 
@@ -109,7 +107,7 @@ export default function Resetpassword() {
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <FormControl fullWidth margin="normal" variant="outlined">
+                {/* <FormControl fullWidth margin="normal" variant="outlined">
                   <InputLabel>Reset Token Code</InputLabel>
                   <OutlinedInput
                     fullWidth
@@ -129,7 +127,7 @@ export default function Resetpassword() {
                   <FormHelperText error>
                     {formik.touched.code && formik.errors.code}
                   </FormHelperText>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl fullWidth margin="normal" variant="outlined">
                   <InputLabel>Password</InputLabel>
@@ -225,6 +223,8 @@ export default function Resetpassword() {
                   Back to Login Page              </Link>
               </Grid>
             </Grid>
+            <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={token ? "Logged in successfully" : "Incorrect email or password"} severity={token ? "success" : "error"}></CustomizedSnackbars>
+
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

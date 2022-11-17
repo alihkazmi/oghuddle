@@ -80,6 +80,7 @@ export default function Login() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  InputLabelProps={{ shrink: true }}
                   label="Email Address"
                   name="email"
                   autoComplete="email"
@@ -94,6 +95,7 @@ export default function Login() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  InputLabelProps={{ shrink: true }} // username overlapping using issue solved through this
                   id="password"
                   name="password"
                   label="Password"
@@ -116,6 +118,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
+              style={{ fontSize: "0.75rem", color: "#303030" }}
               sx={{ mt: 2, mb: 5, backgroundColor: '#f9c712', "&:hover": { backgroundColor: '#bf980c' } }}
             >
               Login
@@ -123,13 +126,13 @@ export default function Login() {
 
             <Grid container justifyContent="flex-end" sx={{ color: '#303030' }}>
               <Grid item xs>
-                <Link to="/forgetpassword" style={{ color: '#303030' }}>
+                <Link to="/forgetpassword" style={{ fontSize: "0.75rem", color: "#303030" }}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
 
-                <Link to='/signup' style={{ color: '#303030' }}> Don't have an account? Signup!</Link>
+                <Link to='/signup' style={{ fontSize: "0.75rem", color: "#303030" }}> Don't have an account? Signup!</Link>
 
               </Grid>
 

@@ -87,9 +87,9 @@ export default function SignUp() {
 
               <Grid item xs={12}>
                 <TextField
-                  required
-                  fullWidth
 
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
                   label="User Name"
                   name="username"
                   autoComplete="username"
@@ -103,10 +103,12 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
+
                   fullWidth
 
                   label="Email Address"
+                  InputLabelProps={{ shrink: true }}
+
                   name="email"
                   autoComplete="email"
                   id="email"
@@ -119,9 +121,10 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="password"
+                  InputLabelProps={{ shrink: true }}
+
                   name="password"
                   label="Password"
                   type="password"
@@ -149,7 +152,7 @@ export default function SignUp() {
 
             <Grid container justifyContent="flex-end" sx={{ color: '#303030' }}>
               <Grid item>
-                <Link to='/' style={{ color: '#303030' }}>
+                <Link to='/' style={{ fontSize: "0.75rem", color: "#303030" }}>
                   Login Instead               </Link>
               </Grid>
             </Grid>
