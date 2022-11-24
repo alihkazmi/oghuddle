@@ -10,11 +10,10 @@ export const useSignup = (userType: any) => {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setResponse: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    const userType = "brands";
-    const baseUrl = `https://project2-p2.herokuapp.com/api/${userType}`;
+    // const baseUrl = `https://project2-p2.herokuapp.com/api/${userType}`;
 
     axios
-      .post(`https://project2-p2.herokuapp.com/api/${userType}s/.json`, {
+      .post(`https://project2-p2.herokuapp.com/api/${userType}s`, {
         [`${userType}`]: {
           email: email,
           password: password,
@@ -25,7 +24,7 @@ export const useSignup = (userType: any) => {
         window.localStorage.setItem("token", response.data[userType].token);
         setToastOpen(true);
         setLoading(false);
-        navigate("/feed");
+        navigate(`/${userType}/landingpage/:screen`);
         setResponse(true);
         console.log("here-----------------", response.data);
       })

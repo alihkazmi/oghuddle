@@ -3,7 +3,7 @@ import MiniDrawer from "./MiniDrawer";
 import { Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import HomePage from "./HomePage";
-import Challenges from "./Challenges";
+import { Challenges } from "./Challenges";
 import Tricks from "./Tricks";
 import Leaderboard from "./Leaderboard";
 import { Route, Routes, Link, useParams } from "react-router-dom";
