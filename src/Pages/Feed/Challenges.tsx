@@ -34,7 +34,7 @@ export const Challenges = () => {
     <Container sx={{ m: 3 }}>
       <Box sx={{ display: "flex", alignItems: "center", width: "fit-content" }}>
         <Typography variant="h5" sx={{ mr: 1.5 }}>
-          Challenges by Brand
+          Brand Challenges
         </Typography>
         <Divider
           orientation="vertical"
@@ -46,7 +46,7 @@ export const Challenges = () => {
           variant="body2"
           sx={{ m: 1.5, color: "secondary.main", cursor: "pointer" }}
         >
-          View All Brands
+          View All Admins
         </Typography>
       </Box>
       <Box
