@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-export const useLogin = () => {
+export const useLogin = (userType: any) => {
   const navigate = useNavigate();
   const Login = (
     email: string,
@@ -9,26 +9,19 @@ export const useLogin = () => {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     const ChangeScreen = () => {
-      navigate("/feed");
-    };
-    const userType = "brands";
-    const baseUrl = `https://project2-p2.herokuapp.com/api/${userType}`;
-
-    const data: { [key: string]: any } = {
-      brand: { email: email, password: password },
-    };
-    var config = {
-      method: "post",
-      url: `${baseUrl}/login.json`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
+      navigate(`/${userType}/landingpage/homepage`);
     };
 
-    axios(config)
-      .then(function (response) {
-        window.localStorage.setItem("token", response.data.brand.token);
+    axios
+      .post(`https://project2-p2.herokuapp.com/api/${userType}s/login.json`, {
+        [`${userType}`]: {
+          email: email,
+          password: password,
+        },
+      })
+
+      .then(function (response: any) {
+        window.localStorage.setItem("token", response.data[userType].token);
         setToastOpen(true);
         setLoading(false);
         setTimeout(ChangeScreen, 2000);

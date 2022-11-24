@@ -1,11 +1,32 @@
-import { useState, createContext } from "react";
-import React from "react";
-import Login from "../Pages/LoginPage/Login";
+import * as React from "react";
+type Props = { children: React.ReactNode };
 
-const AdminContext = createContext(null);
+type challengesDataType = {}[];
+type brandStatsDataType = {}[];
 
-function AdminNewContext() {
-  const [username, setUsername] = useState("");
-}
+type adminContextType = {
+  challenges: challengesDataType;
+  setChallenges: (challenges: challengesDataType) => void;
+  brandStats: brandStatsDataType;
+  setBrandStats: React.Dispatch<React.SetStateAction<brandStatsDataType>>;
+};
 
-export default AdminNewContext;
+export const adminContext = React.createContext<adminContextType>({
+  challenges: [{}],
+  setChallenges: () => { },
+  brandStats: [{}],
+  setBrandStats: () => { },
+});
+
+export const AdminProvider: React.FC<Props> = ({ children }) => {
+  const [challenges, setChallenges] = React.useState<challengesDataType>([]);
+  const [brandStats, setBrandStats] = React.useState<brandStatsDataType>([]);
+
+  return (
+    <adminContext.Provider
+      value={{ challenges, setChallenges, brandStats, setBrandStats }}
+    >
+      {children}
+    </adminContext.Provider>
+  );
+};

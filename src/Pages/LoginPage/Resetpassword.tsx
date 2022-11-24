@@ -219,11 +219,11 @@ export default function Resetpassword() {
             <CustomizedSnackbars setToastOpen={true} text={"success"}></CustomizedSnackbars>
             <Grid container justifyContent="flex-end" sx={{ color: '#303030' }}>
               <Grid item>
-                <Link to='/' style={{ color: '#303030' }}>
+                <Link to='/' style={{ fontSize: "0.75rem", color: "#303030" }}>
                   Back to Login Page              </Link>
               </Grid>
             </Grid>
-            <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={token ? "Logged in successfully" : "Incorrect email or password"} severity={token ? "success" : "error"}></CustomizedSnackbars>
+            <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={"Password has been successfully changed"} severity={token ? "success" : "error"}></CustomizedSnackbars>
 
           </Box>
         </Box>

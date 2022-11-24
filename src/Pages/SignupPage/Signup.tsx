@@ -11,9 +11,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSignup } from '../../Hooks/useSignup';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import CustomizedSnackbars from '../../Components/Toast';
+import { Navigate } from "react-router-dom";
 
 
 
@@ -33,9 +35,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const { Signup } = useSignup();
+  let { userType } = useParams();
+
+  const { Signup } = useSignup(userType);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [toastOpen, setToastOpen] = React.useState<boolean>(false);
+  const [response, setResponse] = React.useState<boolean>(false);
   const validationSchema = yup.object({
     username: yup
       .string()
@@ -57,11 +62,14 @@ export default function SignUp() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      Signup(values.username, values.email, values.password, setToastOpen, setLoading)
+      setLoading(true);
+      Signup(values.username, values.email, values.password, setToastOpen, setLoading, setResponse)
     },
   });
 
-
+  if (userType !== "customer" && userType !== "admin" && userType !== "brand") {
+    return <Navigate to="/404_Not_Found" />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -80,7 +88,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" >
-            Sign Up          </Typography>
+            Sign Up as {userType}         </Typography>
           <Box component="form" sx={{ mt: 3, }} onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
 
@@ -92,7 +100,6 @@ export default function SignUp() {
                   InputLabelProps={{ shrink: true }}
                   label="User Name"
                   name="username"
-                  autoComplete="username"
                   id="username"
                   value={formik.values.username}
                   onChange={formik.handleChange}
@@ -110,7 +117,6 @@ export default function SignUp() {
                   InputLabelProps={{ shrink: true }}
 
                   name="email"
-                  autoComplete="email"
                   id="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -141,21 +147,48 @@ export default function SignUp() {
 
               </Grid>
             </Grid>
+            {loading && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: "-1rem",
+                }}
+              >
+                <CircularProgress></CircularProgress>
+              </Box>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 2, mb: 5, backgroundColor: '#f9c712', "&:hover": { backgroundColor: '#bf980c' } }}
             >
-              Sign Up
+              Sign Up as {userType}
             </Button>
 
             <Grid container justifyContent="flex-end" sx={{ color: '#303030' }}>
               <Grid item>
-                <Link to='/' style={{ fontSize: "0.75rem", color: "#303030" }}>
+                <Link to='/admin/login' style={{ fontSize: "0.75rem", color: "#303030" }}>
                   Login Instead               </Link>
               </Grid>
             </Grid>
+            {response && <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={"User has been successfully created"} severity={"success"}></CustomizedSnackbars>
+            }
+            {!response && <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={"Email already exists"} severity={"error"}></CustomizedSnackbars>
+            }
+            <Link to="/brand/signup" style={{ fontSize: "0.75rem", color: "#303030" }}>
+              Signup as Brand                </Link>
+            <br></br>
+
+            <Link to="/admin/signup" style={{ fontSize: "0.75rem", color: "#303030" }}>
+              Signup as Admin                </Link>
+            <br></br>
+
+            <Link to="/customer/signup" style={{ fontSize: "0.75rem", color: "#303030" }}>
+              Signup as Customer                </Link>
+
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

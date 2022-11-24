@@ -11,9 +11,13 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useLogin } from '../../Hooks/useLogin';
 import CustomizedSnackbars from '../../Components/Toast';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Navigate } from "react-router-dom";
+
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,7 +35,8 @@ const theme = createTheme();
 
 export default function Login() {
   const token = window.localStorage.getItem("token")
-  const { Login } = useLogin();
+  let { userType } = useParams();
+  const { Login } = useLogin(userType);
   const [loading, setLoading] = React.useState(false)
   const [toastOpen, setToastOpen] = React.useState(false)
   const validationSchema = yup.object({
@@ -51,10 +56,13 @@ export default function Login() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      setLoading(true);
       Login(values.email, values.password, setToastOpen, setLoading)
     },
   });
-
+  if (userType !== "customer" && userType !== "admin" && userType !== "brand") {
+    return <Navigate to="/404_Not_Found" />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,7 +81,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" >
-            Login
+            Login as {userType}
           </Typography>
           <Box component="form" sx={{ mt: 3, }} onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
@@ -113,6 +121,18 @@ export default function Login() {
 
               </Grid>
             </Grid>
+            {loading && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: "-1rem",
+                }}
+              >
+                <CircularProgress></CircularProgress>
+              </Box>
+            )}
 
             <Button
               type="submit"
@@ -129,12 +149,32 @@ export default function Login() {
                 <Link to="/forgetpassword" style={{ fontSize: "0.75rem", color: "#303030" }}>
                   Forgot password?
                 </Link>
+                <br></br>
+                <Link to="/brand/login" style={{ fontSize: "0.75rem", color: "#303030" }}>
+                  Login as Brand                </Link>
+                <br></br>
+
+                <Link to="/admin/login" style={{ fontSize: "0.75rem", color: "#303030" }}>
+                  Login as Admin                </Link>
+                <br></br>
+
+                <Link to="/customer/login" style={{ fontSize: "0.75rem", color: "#303030" }}>
+                  Login as Customer                </Link>
+
               </Grid>
+
+
+
+
+
+
+
               <Grid item>
 
-                <Link to='/signup' style={{ fontSize: "0.75rem", color: "#303030" }}> Don't have an account? Signup!</Link>
+                <Link to='/admin/signup' style={{ fontSize: "0.75rem", color: "#303030" }}> Don't have an account? Signup!</Link>
 
               </Grid>
+
 
             </Grid>
             <CustomizedSnackbars open={toastOpen} setOpen={setToastOpen} text={token ? "Logged in successfully" : "Incorrect email or password"} severity={token ? "success" : "error"}></CustomizedSnackbars>

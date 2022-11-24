@@ -2,11 +2,13 @@ import React from 'react';
 
 import './App.css';
 import { NavigationRoutes } from './Routes/routes';
-
+import { AdminProvider } from './Context/AdminContext';
 function App() {
   return (
     <>
-      <NavigationRoutes></NavigationRoutes>
+      <AdminProvider>
+        <NavigationRoutes></NavigationRoutes>
+      </AdminProvider>
     </>
   );
 }
