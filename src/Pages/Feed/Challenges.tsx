@@ -49,6 +49,7 @@ export const Challenges = () => {
           View All Admins
         </Typography>
       </Box>
+      <hr></hr>
       <Box
         sx={{
           backgroundColor: "white",
@@ -115,25 +116,29 @@ export const Challenges = () => {
           ))}
         </List>
       </Box>
-      <Container>
-        <Card sx={{ maxWidth: 300, position: "relative" }}>
-          <CardMedia
-            component="img"
-            alt="green iguana"
-            height="300"
-            image="https://images.unsplash.com/photo-1596803244535-925769f389fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          />
-          <CardContent sx={{ position: "absolute", top: "20%" }}>
-            <Typography gutterBottom variant="h6" color="#fff">
-              7Up Masala Challenge
-            </Typography>
-            <Typography variant="body2" color="#fff"></Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </Card>
+      <Container sx={{ display: 'flex', flexDirection: 'row' }}>
+        {[1, 2, 3, 4].map((value, index) => (
+          <Box sx={{ padding: '10px' }} >
+            <Card sx={{ maxWidth: 300, position: "relative" }}>
+              <CardMedia
+                component="img"
+                alt="coke zero pic"
+                height="300"
+                image="https://images.unsplash.com/photo-1596803244535-925769f389fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+              />
+              <CardContent sx={{ position: "absolute", top: "20%" }}>
+                <Typography gutterBottom variant="h6" color="#fff">
+                  7Up Masala Challenge
+                </Typography>
+                <Typography variant="body2" color="#fff"></Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Share</Button>
+                <Button size="small">Learn More</Button>
+              </CardActions>
+            </Card>
+          </Box>
+        ))}
       </Container>
     </Container>
   );

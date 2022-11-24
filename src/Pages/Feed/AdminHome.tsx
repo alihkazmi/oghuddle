@@ -55,21 +55,21 @@ export default function CustomizedTables() {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="right">ID</StyledTableCell>
-            <StyledTableCell align="right">Name</StyledTableCell>
-            <StyledTableCell align="right">Email</StyledTableCell>
-            <StyledTableCell align="right">Challenges</StyledTableCell>
-            <StyledTableCell align="right">Tricks</StyledTableCell>
+            <StyledTableCell align="center">ID</StyledTableCell>
+            <StyledTableCell align="center">Name</StyledTableCell>
+            <StyledTableCell align="center">Email</StyledTableCell>
+            <StyledTableCell align="center">Challenges</StyledTableCell>
+            <StyledTableCell align="center">Tricks</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {brandStats.map((row: any) => (
             <StyledTableRow key={row.id}>
-              <StyledTableCell align="right">{row?.id}</StyledTableCell>
-              <StyledTableCell align="right">{row?.name}</StyledTableCell>
-              <StyledTableCell align="right">{row?.email}</StyledTableCell>
-              <StyledTableCell align="right">{row?.challenges.length}</StyledTableCell>
-              <StyledTableCell align="right">{row?.tricks.length}</StyledTableCell>
+              <StyledTableCell align="center">{row?.id}</StyledTableCell>
+              <StyledTableCell align="center">{row?.name}</StyledTableCell>
+              <StyledTableCell align="center">{row?.email}</StyledTableCell>
+              <StyledTableCell align="center">{row?.challenges.length}</StyledTableCell>
+              <StyledTableCell align="center">{row?.tricks.length}</StyledTableCell>
 
             </StyledTableRow>
           ))}

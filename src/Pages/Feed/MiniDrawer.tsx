@@ -177,11 +177,11 @@ export default function (props: any) {
               <MenuIcon />
 
             </IconButton>
-
+            <LogoutButton></LogoutButton>
             <IconButton
               sx={{
                 color: "#d6d6d6",
-                marginLeft: "10rem",
+                marginLeft: "7rem",
                 "&:hover": {
                   color: "#f9c712",
                 },
